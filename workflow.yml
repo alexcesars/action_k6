@@ -1,0 +1,14 @@
+name : Fluxo de trabalho principal 
+em : [push] 
+jobs :
+   build :
+     name : Executar teste k6 run 
+    -on : ubuntu-latest 
+    steps : 
+      - name : Checkout 
+        usa : actions/checkout@v2 
+      - name : Executar teste local k6 
+        usa : grafana/k6 -action@v0.2.0 
+        com :
+           filename : my-load-test.js 
+          sinalizadores : --vus 50 --duration 10s
