@@ -1,14 +1,17 @@
-name : Fluxo de trabalho principal 
-em : [push] 
-jobs :
-   build :
-     name : Executar teste k6 run 
-    -on : ubuntu-latest 
-    steps : 
-      - name : Checkout 
-        usa : actions/checkout@v2 
-      - name : Executar teste local k6 
-        usa : grafana/k6 -action@v0.2.0 
-        com :
-           filename : my-load-test.js 
-          sinalizadores : --vus 50 --duration 10s
+name: Main Workflow
+on: [push]
+jobs:
+  build:
+    name: Run k6 test
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Run k6 local test
+        uses: grafana/k6-action@v0.2.0
+        with:
+          filename: ./tests/k6-script.js
+          flags: --vus 50 --duration 10s
+          cloud : true
+          token : ${{ secrets.K6_CLOUD_API_TOKEN }}
+          
